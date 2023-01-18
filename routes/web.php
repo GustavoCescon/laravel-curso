@@ -25,11 +25,14 @@ Route::get('/contato', function () {
 });
 
  */
+
 Route::get('/', [\App\Http\Controllers\PrincipalController::class, 'principal']);
 Route::get('/contato', [\App\Http\Controllers\ContatoController::class, 'contato']);
 Route::get('/sobrenos', [\App\Http\Controllers\SobreController::class, 'sobreNos']);
+Route::get('/login', function(){ return 'login';});
 
-//nome, categoria, assunto, mensagem
-Route::get('/contato/{nome?}/{categoria_id?}', function (string $nome = 'desconhecido', int $categoria_id = 1){
-   echo "{$nome} - {$categoria_id}";
+Route::prefix('/app')->group(function(){
+    Route::get('/clientes', function(){ return 'clientes';});
+    Route::get('/fornecedor', function(){ return 'fornecedor';});
+    Route::get('/produtos', function(){ return 'produtos';});
 });

@@ -53,7 +53,7 @@
 --}}
 
 
-@isset($fornecedores)
+{{-- @isset($fornecedores)
     Fornecedor: {{$fornecedores[0]['nome']}}
     <br>
     Status: {{$fornecedores[0]['status']}}
@@ -74,7 +74,7 @@
         @default
             Estado não identificado
     @endswitch
-@endisset
+@endisset --}}
 
 <br>
 <br>
@@ -111,13 +111,39 @@
 <hr>
 @isset($fornecedores)
     @foreach ($fornecedores as $i => $fornecedor)
-        Fornecedor:{{$fornecedor[$i]['nome'] ?? 'Nome não informado'}}<br>
-        Status:{{$fornecedor[$i]['status'] ?? 'Nome não informado'}}<br>
-        CNPJ:{{$fornecedor[$i]['cnpj'] ?? 'Nome não informado'}}<br>
-        Tel: ({{$fornecedor[$i]['ddd'] ?? ''}}) {{$fornecedor[0]['telefone'] ?? ''}}
+        Fornecedor:{{$fornecedor['nome'] ?? 'Nome não informado'}}<br>
+        Status:{{$fornecedor['status'] ?? 'Nome não informado'}}<br>
+        CNPJ:{{$fornecedor['cnpj'] ?? 'Nome não informado'}}<br>
+        Tel: ({{$fornecedor['ddd'] ?? ''}}) {{$fornecedor['telefone'] ?? ''}}
         <hr>
     @endforeach
 
 @endisset
 
+<br>
+<h3>UTILIZANDO O FORELSE BLADE</h3>
+<hr>
 
+@isset($fornecedores)
+    @forelse ($fornecedores as $i => $fornecedor)
+        Interação atual: {{ $loop->iteration }}
+        <br>
+        Fornecedor: @{{$fornecedor['nome'] ?? 'Nome não informado'}}<br>
+        Status:{{$fornecedor['status'] ?? 'Nome não informado'}}<br>
+        CNPJ:{{$fornecedor['cnpj'] ?? 'Nome não informado'}}<br>
+        Tel: ({{$fornecedor['ddd'] ?? ''}}) {{$fornecedor['telefone'] ?? ''}}
+        <br>
+        @if($loop->first)
+            Primeira iteração do Loop
+        @endif
+        @if($loop->last)
+            última iteração do Loop
+            <br>
+            Total de registros {{ $loop->count }}
+        @endif
+        <hr>
+        @empty
+            Não existe fornecedores cadastrados !!
+    @endforelse
+
+@endisset

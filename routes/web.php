@@ -1,6 +1,8 @@
 <?php
 
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,18 +28,30 @@ Route::get('/contato', function () {
 
  */
 
-Route::get('/', [\App\Http\Controllers\PrincipalController::class, 'principal'])->name('site.index');
-
+Route::get('/', [\App\Http\Controllers\PrincipalController::class, 'principal'])
+    ->name('site.index');
+    //->Middleware('log.acesso');
 Route::get('/contato', [\App\Http\Controllers\ContatoController::class, 'contato'])->name('site.contato');
 Route::post('/contato', [\App\Http\Controllers\ContatoController::class, 'salvar'])->name('site.contato');
 
-Route::get('/sobrenos', [\App\Http\Controllers\SobreController::class, 'sobreNos'])->name('site.sobrenos');
+Route::get('/sobrenos', [\App\Http\Controllers\SobreController::class, 'sobreNos'])
+    ->name('site.sobrenos');
+
+
 Route::get('/login', function(){ return 'login';});
 
 Route::prefix('/app')->group(function(){
-    Route::get('/clientes', function(){ return 'clientes';})->name('app.clientes');
-    Route::get('/fornecedor', [\App\Http\Controllers\FornecedorController::class, 'index'])->name('app.fornecedor');
-    Route::get('/produtos', function(){ return 'produtos';})->name('app.produtos');
+    Route::middleware('autenticacao')
+        ->get('/clientes', function(){ return 'clientes';})
+        ->name('app.clientes');
+
+    Route::middleware('autenticacao')
+        ->get('/fornecedor', [\App\Http\Controllers\FornecedorController::class, 'index'])
+        ->name('app.fornecedor');
+
+    Route::middleware('autenticacao')
+        ->get('/produtos', function(){ return 'produtos';})
+        ->name('app.produtos');
 });
 
 

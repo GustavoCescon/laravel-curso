@@ -15,12 +15,14 @@ class AutenticacaoMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $metodo_autenticacao, $perfil)
     {
-        if(true){
+        session_start();
+        if( isset($_SESSION['email']) && $_SESSION['email'] != '')
+        {
             return $next($request);
         }else{
-            return Response('Acesso Negado ! Rota Exige Autenticação !!');
+            return redirect()->route('site.login', ['error'=> 2]);
         }
         
     }

@@ -14,6 +14,6 @@ class FornecedorController extends Controller
             2=> ['nome' => 'Fornecedor 3', 'status' => 'S', 'cnpj'=>'0', 'ddd'=> '28', 'telefone'=>'000-0000']
         ];
         
-        return view('app.fornecedor.index', compact('fornecedores'));
+        return view('app.fornecedor', compact('fornecedores'));
     }
 }
